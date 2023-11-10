@@ -21,14 +21,14 @@ public class UserDtoRequestCreate {
 
     public UserDtoRequestCreate toDto(User userEntity) {
         UserDtoRequestCreate userDto = new UserDtoRequestCreate();
-        userDto.setFirstName(userEntity.getFirstName());
-        userDto.setLastName(userEntity.getLastName());
-        userDto.setCpf(userEntity.getCpf());
-        userDto.setBirthdate(userEntity.getBirthdate());
-        userDto.setEmail(userEntity.getEmail());
-        userDto.setPassword(userEntity.getPassword());
-        userDto.setActive(userEntity.isActive());
-        return userDto;
+        setFirstName(userEntity.getFirstName());
+        setLastName(userEntity.getLastName());
+        setCpf(userEntity.getCpf());
+        setBirthdate(userEntity.getBirthdate());
+        setEmail(userEntity.getEmail());
+        setPassword(userEntity.getPassword());
+        setActive(userEntity.isActive());
+        return this;
     }
 
     public User toEntity() {

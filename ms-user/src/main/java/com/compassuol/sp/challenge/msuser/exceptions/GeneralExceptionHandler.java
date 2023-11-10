@@ -1,8 +1,6 @@
 package com.compassuol.sp.challenge.msuser.exceptions;
 
-import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.BusinessException;
-import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.InternalServerErrorException;
-import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.InvalidDataException;
+import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -44,14 +42,14 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<UserErrorResponse> handleEntityNotFoundException(){
+    @ExceptionHandler(NotFoundUserException.class)
+    public ResponseEntity<UserErrorResponse> handleEntityNotFoundException(NotFoundUserException ex){
         var httpStatus = HttpStatus.NOT_FOUND;
         var productErrorResponse = new UserErrorResponse();
 
         productErrorResponse.setCode(httpStatus.value());
         productErrorResponse.setStatus(httpStatus.name());
-        productErrorResponse.setMessage("User not found.");
+        productErrorResponse.setMessage(ex.getMessage());
 
         return new ResponseEntity<>(productErrorResponse, httpStatus);
     }
@@ -64,6 +62,17 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         error.setMessage(ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<UserErrorResponse> handleUnauthorizedOperationExceptionException(UnauthorizedOperationException ex) {
+        UserErrorResponse error = new UserErrorResponse();
+
+        error.setCode(HttpStatus.FORBIDDEN.value());
+        error.setStatus(HttpStatus.FORBIDDEN.name());
+        error.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
 }

@@ -1,14 +1,12 @@
-package com.compassuol.sp.challenge.msuser.jwt;
+package com.compassuol.sp.challenge.msuser.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class JwtToken {
+public class UserDtoResponseLogin {
     private String token;
 }

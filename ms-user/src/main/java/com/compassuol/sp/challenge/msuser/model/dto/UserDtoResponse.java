@@ -10,7 +10,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class UserDtoReponse {
+public class UserDtoResponse {
     private Long id;
     private String firstName;
     private String lastName;
@@ -19,7 +19,7 @@ public class UserDtoReponse {
     private String email;
     private boolean active;
 
-    public UserDtoReponse toDto(User userEntity) {
+    public UserDtoResponse toDto(User userEntity) {
         setId(userEntity.getId());
         setFirstName(userEntity.getFirstName());
         setLastName(userEntity.getLastName());
@@ -30,15 +30,15 @@ public class UserDtoReponse {
         return this;
     }
 
-    public User toEntity(UserDtoReponse userDto) {
+    public User toEntity() {
         User userEntity = new User();
-        userEntity.setId(userDto.getId());
-        userEntity.setFirstName(userDto.getFirstName());
-        userEntity.setLastName(userDto.getLastName());
-        userEntity.setCpf(userDto.getCpf());
-        userEntity.setBirthdate(userDto.getBirthdate());
-        userEntity.setEmail(userDto.getEmail());
-        userEntity.setActive(userDto.isActive());
+        userEntity.setId(getId());
+        userEntity.setFirstName(getFirstName());
+        userEntity.setLastName(getLastName());
+        userEntity.setCpf(getCpf());
+        userEntity.setBirthdate(getBirthdate());
+        userEntity.setEmail(getEmail());
+        userEntity.setActive(isActive());
         return userEntity;
     }
 }

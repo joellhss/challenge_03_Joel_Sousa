@@ -11,6 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserDtoRequestUpdate {
+    private Long id;
     private String firstName;
     private String lastName;
     private String cpf;
@@ -19,24 +20,25 @@ public class UserDtoRequestUpdate {
     private boolean active;
 
     public UserDtoRequestUpdate toDto(User userEntity) {
-        UserDtoRequestUpdate userDto = new UserDtoRequestUpdate();
-        userDto.setFirstName(userEntity.getFirstName());
-        userDto.setLastName(userEntity.getLastName());
-        userDto.setCpf(userEntity.getCpf());
-        userDto.setBirthdate(userEntity.getBirthdate());
-        userDto.setEmail(userEntity.getEmail());
-        userDto.setActive(userEntity.isActive());
-        return userDto;
+        setId(userEntity.getId());
+        setFirstName(userEntity.getFirstName());
+        setLastName(userEntity.getLastName());
+        setCpf(userEntity.getCpf());
+        setBirthdate(userEntity.getBirthdate());
+        setEmail(userEntity.getEmail());
+        setActive(userEntity.isActive());
+        return this;
     }
 
-    public User toEntity(UserDtoRequestUpdate userDto) {
+    public User toEntity() {
         User userEntity = new User();
-        userEntity.setFirstName(userDto.getFirstName());
-        userEntity.setLastName(userDto.getLastName());
-        userEntity.setCpf(userDto.getCpf());
-        userEntity.setBirthdate(userDto.getBirthdate());
-        userEntity.setEmail(userDto.getEmail());
-        userEntity.setActive(userDto.isActive());
+        userEntity.setId(getId());
+        userEntity.setFirstName(getFirstName());
+        userEntity.setLastName(getLastName());
+        userEntity.setCpf(getCpf());
+        userEntity.setBirthdate(getBirthdate());
+        userEntity.setEmail(getEmail());
+        userEntity.setActive(isActive());
         return userEntity;
     }
 }
