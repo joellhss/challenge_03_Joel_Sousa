@@ -1,4 +1,4 @@
-package com.compassuol.sp.challenge.msuser.config;
+package com.compassuol.sp.challenge.msuser.config.security;
 
 import com.compassuol.sp.challenge.msuser.repository.UserRepository;
 import jakarta.servlet.FilterChain;

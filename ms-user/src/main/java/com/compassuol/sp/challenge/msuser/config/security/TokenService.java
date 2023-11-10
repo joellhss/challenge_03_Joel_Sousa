@@ -1,4 +1,4 @@
-package com.compassuol.sp.challenge.msuser.config;
+package com.compassuol.sp.challenge.msuser.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -22,7 +22,13 @@ spring:
     jackson:
         time-zone: America/Sao_Paulo
         default-property-inclusion: NON_NULL
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
 api:
     security:
         token:
             secret: ${JWT_SECRET:bXkgc2VjcmV0IGp3dA}
+

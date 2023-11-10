@@ -1,5 +1,7 @@
 package com.compassuol.sp.challenge.msuser.services.impl;
 
+import com.compassuol.sp.challenge.msuser.Enums.EventsForNotification;
+import com.compassuol.sp.challenge.msuser.config.RabbitMQ.UserCreationMessage;
 import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.*;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestPasswordUpdate;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestUpdate;
@@ -10,10 +12,14 @@ import com.compassuol.sp.challenge.msuser.repository.UserRepository;
 import com.compassuol.sp.challenge.msuser.services.UserService;
 import com.compassuol.sp.challenge.msuser.utils.Validations;
 import lombok.AllArgsConstructor;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -21,13 +27,13 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository repository;
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public UserDtoResponse getUserById(long userId, String authenticatedUserEmail) {
         Optional<User> response = repository.findById(userId);
         if(response.isEmpty()) throw new NotFoundUserException("User does not exist in the database.");
         authenticationValidator(userId, authenticatedUserEmail);
-
         return new UserDtoResponse().toDto(response.get());
     }
 
@@ -44,8 +50,11 @@ public class UserServiceImpl implements UserService {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encryptedPassword);
-
+        sendUserCreationMessage(user.getEmail(), EventsForNotification.CREATE);
         User resultSave = repository.save(user.toEntity());
+
+
+
         return new UserDtoResponse().toDto(resultSave);
     }
 
@@ -70,6 +79,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             repository.save(userUpdated);
+            sendUserCreationMessage(userUpdated.getEmail(), EventsForNotification.UPDATE);
         } catch (Exception ex) {
             throw new InternalServerErrorException("unknown error. Please contact support");
         }
@@ -83,10 +93,20 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = new BCryptPasswordEncoder().encode(password.getPassword());
         userRepository.setPassword(encryptedPassword);
         repository.save(userRepository);
+        sendUserCreationMessage(userRepository.getEmail(), EventsForNotification.UPDATE_PASSWORD);
     }
     public void authenticationValidator(Long userId, String authenticatedUserEmail) {
         Optional<User> responseUser = repository.findByEmail(authenticatedUserEmail);
         if (responseUser.isEmpty()) throw new InternalServerErrorException("Something unexpected occurred. Try logging in again");
         if (!responseUser.get().getId().equals(userId)) throw new UnauthorizedOperationException("You do not have permission to change this account");
+    }
+
+    public void sendUserCreationMessage(String userEmail, EventsForNotification operation) {
+        UserCreationMessage message = new UserCreationMessage();
+        message.setEmail(userEmail);
+        message.setEvent(operation);
+        message.setDate(LocalDateTime.now().toString());
+
+        rabbitTemplate.convertAndSend("msuser-notification", message);
     }
 }

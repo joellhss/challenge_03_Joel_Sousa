@@ -1,4 +1,4 @@
-package com.compassuol.sp.challenge.msuser.config;
+package com.compassuol.sp.challenge.msuser.config.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
