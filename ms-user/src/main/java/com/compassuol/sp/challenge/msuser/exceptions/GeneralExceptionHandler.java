@@ -1,13 +1,16 @@
 package com.compassuol.sp.challenge.msuser.exceptions;
 
 import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.*;
+import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.dao.DataIntegrityViolationException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.text.ParseException;
 
 @ControllerAdvice
 public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
@@ -65,12 +68,23 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedOperationException.class)
-    public ResponseEntity<UserErrorResponse> handleUnauthorizedOperationExceptionException(UnauthorizedOperationException ex) {
+    public ResponseEntity<UserErrorResponse> handleUnauthorizedOperationException(UnauthorizedOperationException ex) {
         UserErrorResponse error = new UserErrorResponse();
 
         error.setCode(HttpStatus.FORBIDDEN.value());
         error.setStatus(HttpStatus.FORBIDDEN.name());
         error.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ParseException.class)
+    public ResponseEntity<UserErrorResponse> handleParseException(ParseException ex) {
+        UserErrorResponse error = new UserErrorResponse();
+
+        error.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.name());
+        error.setMessage("We seem to have a problem with the Birthdate field");
 
         return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }

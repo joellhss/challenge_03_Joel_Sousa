@@ -1,5 +1,6 @@
 package com.compassuol.sp.challenge.msuser.services;
 
+import com.compassuol.sp.challenge.msuser.enums.EventsForNotification;
 import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.NotFoundUserException;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestCreate;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestPasswordUpdate;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,10 +29,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
     @InjectMocks
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Mock
+    private EventsForNotification eventsForNotification;
+    @Mock
+    private RabbitTemplate rabbitTemplate;
 
     @Test
     public void createUser_withValidData_ReturnsOrder() throws ParseException {
@@ -53,14 +60,7 @@ public class UserServiceImplTest {
         user.setCpf("123.123.123-00");
         user.setEmail("test@email.com");
 
-        UserDtoResponse response = new UserDtoResponse();
-        response.setId(1L);
-        response.setActive(request.isActive());
-        response.setBirthdate(request.getBirthdate());
-        response.setCpf(request.getCpf());
-        response.setEmail(request.getEmail());
-        response.setFirstName(request.getFirstName());
-        response.setLastName(request.getLastName());
+        UserDtoResponse response = new UserDtoResponse().toDto(user);
 
         when(userRepository.save(any(User.class))).thenReturn(user);
 
@@ -130,14 +130,14 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getUserById_withValidData_ReturnsUser() {
+    public void getUserById_withValidData_ReturnsUser() throws ParseException {
         long userId = 1L;
         String authenticatedUserEmail = "authenticated@example.com";
 
         User existingUser = new User();
         existingUser.setId(userId);
         existingUser.setEmail(authenticatedUserEmail);
-
+        existingUser.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse("1990-10-09"));
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.findByEmail(authenticatedUserEmail)).thenReturn(Optional.of(existingUser));
 

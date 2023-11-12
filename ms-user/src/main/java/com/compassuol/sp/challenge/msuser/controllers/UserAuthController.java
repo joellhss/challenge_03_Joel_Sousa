@@ -1,6 +1,6 @@
 package com.compassuol.sp.challenge.msuser.controllers;
 
-import com.compassuol.sp.challenge.msuser.Enums.EventsForNotification;
+import com.compassuol.sp.challenge.msuser.enums.EventsForNotification;
 import com.compassuol.sp.challenge.msuser.config.security.TokenService;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoResponseLogin;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestLogin;

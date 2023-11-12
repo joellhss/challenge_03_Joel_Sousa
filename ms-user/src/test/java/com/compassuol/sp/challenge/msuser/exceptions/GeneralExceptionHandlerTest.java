@@ -1,12 +1,11 @@
 package com.compassuol.sp.challenge.msuser.exceptions;
 
-import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.BusinessException;
-import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.InternalServerErrorException;
-import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.InvalidDataException;
+import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -51,6 +50,42 @@ public class GeneralExceptionHandlerTest {
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Invalid data", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testNotFoundUserException() {
+        NotFoundUserException ex = new NotFoundUserException("Invalid data");
+
+        ResponseEntity<UserErrorResponse> response = exceptionHandler.handleEntityNotFoundException(ex);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Invalid data", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testDataIntegrityViolationException() {
+        DataIntegrityViolationException ex = new DataIntegrityViolationException("Invalid data");
+
+        ResponseEntity<UserErrorResponse> response = exceptionHandler.handleDataIntegrityViolationException(ex);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Invalid data", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testUnauthorizedOperationException() {
+        UnauthorizedOperationException ex = new UnauthorizedOperationException("Invalid data");
+
+        ResponseEntity<UserErrorResponse> response = exceptionHandler.handleUnauthorizedOperationException(ex);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Invalid data", response.getBody().getMessage());
     }

@@ -41,7 +41,7 @@ public class UserControllerTest {
         UserDtoResponse response = new UserDtoResponse();
         response.setId(1L);
         response.setActive(request.isActive());
-        response.setBirthdate(request.getBirthdate());
+        response.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").format(request.getBirthdate()));
         response.setCpf(request.getCpf());
         response.setEmail(request.getEmail());
         response.setFirstName(request.getFirstName());
@@ -69,7 +69,7 @@ public class UserControllerTest {
         UserDtoResponse response = new UserDtoResponse();
         response.setId(request.getId());
         response.setActive(request.isActive());
-        response.setBirthdate(request.getBirthdate());
+        response.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").format(request.getBirthdate()));
         response.setCpf(request.getCpf());
         response.setEmail(request.getEmail());
         response.setFirstName(request.getFirstName());
@@ -105,7 +105,7 @@ public class UserControllerTest {
     public void userGetById_WithValidData_ReturnsCreated() throws Exception {
         UserDtoResponse response = new UserDtoResponse();
         response.setId(1L);
-        response.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse("1990-10-07"));
+        response.setBirthdate("07/10/1990");
         response.setActive(true);
         response.setFirstName("Test");
         response.setLastName("Spring");

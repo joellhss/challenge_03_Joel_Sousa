@@ -1,6 +1,6 @@
 package com.compassuol.sp.challenge.msuser.services.impl;
 
-import com.compassuol.sp.challenge.msuser.Enums.EventsForNotification;
+import com.compassuol.sp.challenge.msuser.enums.EventsForNotification;
 import com.compassuol.sp.challenge.msuser.config.RabbitMQ.UserCreationMessage;
 import com.compassuol.sp.challenge.msuser.exceptions.customExceptions.*;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestPasswordUpdate;
@@ -12,14 +12,11 @@ import com.compassuol.sp.challenge.msuser.repository.UserRepository;
 import com.compassuol.sp.challenge.msuser.services.UserService;
 import com.compassuol.sp.challenge.msuser.utils.Validations;
 import lombok.AllArgsConstructor;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
