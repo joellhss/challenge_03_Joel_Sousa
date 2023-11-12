@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: MS Notification
+  description: Microservice for storing logs generated in the MS User application.
+  contact:
+    name: Joel Sousa
+    url: https://github.com/joellhss
+    email: joel.sousa.pb@compassuol.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: v1
+servers:
+- url: http://localhost:8000
+  description: Generated server url
+tags:
+- name: Notification controller
+  description: User management methods
+paths:
+  /v1/notification:
+    get:
+      tags:
+      - Notification controller
+      summary: User authentication and token release
+      operationId: getNotifications
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageUserNotificationDTO'
+        "404":
+          description: No logs registered so far
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageUserNotificationDTO'
+components:
+  schemas:
+    PageUserNotificationDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserNotificationDTO'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+    SortObject:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    UserNotificationDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        event:
+          type: string
+          enum:
+          - CREATE
+          - UPDATE
+          - LOGIN
+          - UPDATE_PASSWORD
+        date:
+          type: string
