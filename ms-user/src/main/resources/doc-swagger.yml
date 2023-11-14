@@ -1,0 +1,241 @@
+openapi: 3.0.1
+info:
+  title: MS User
+  description: Rest API for user creation and authentication.
+  contact:
+    name: Joel Sousa
+    url: https://github.com/joellhss
+    email: joel.sousa.pb@compassuol.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: v1
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: User controller
+  description: User management methods
+- name: User authentication
+  description: User authentication
+paths:
+  /v1/users/{id}:
+    get:
+      tags:
+      - User controller
+      summary: Search user by id
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Operation carried out successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponse'
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponse'
+    put:
+      tags:
+      - User controller
+      summary: Update user registration data
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDtoRequestUpdate'
+        required: true
+      responses:
+        "400":
+          description: Invalid data
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: User updated successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+  /v1/users/{id}/password:
+    put:
+      tags:
+      - User controller
+      summary: Update user password
+      operationId: updatePasswordUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDtoRequestPasswordUpdate'
+        required: true
+      responses:
+        "200":
+          description: Password updated successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Invalid data
+          content:
+            '*/*':
+              schema:
+                type: string
+  /v1/users:
+    post:
+      tags:
+      - User controller
+      summary: Create new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDtoRequestCreate'
+        required: true
+      responses:
+        "400":
+          description: Invalid data
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponse'
+        "201":
+          description: User created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponse'
+  /v1/login:
+    post:
+      tags:
+      - User authentication
+      summary: User authentication and token release
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDtoRequestLogin'
+        required: true
+      responses:
+        "400":
+          description: Error while generating token
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponseLogin'
+        "201":
+          description: User created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponseLogin'
+        "403":
+          description: Not authorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDtoResponseLogin'
+components:
+  schemas:
+    UserDtoRequestUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        cpf:
+          type: string
+        birthdate:
+          type: string
+          format: date-time
+        email:
+          type: string
+        active:
+          type: boolean
+    UserDtoRequestPasswordUpdate:
+      type: object
+      properties:
+        password:
+          type: string
+    UserDtoRequestCreate:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        cpf:
+          type: string
+        birthdate:
+          type: string
+          format: date-time
+        email:
+          type: string
+        password:
+          type: string
+        active:
+          type: boolean
+    UserDtoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        cpf:
+          type: string
+        birthdate:
+          type: string
+          format: date-time
+        email:
+          type: string
+        active:
+          type: boolean
+    UserDtoRequestLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    UserDtoResponseLogin:
+      type: object
+      properties:
+        token:
+          type: string
