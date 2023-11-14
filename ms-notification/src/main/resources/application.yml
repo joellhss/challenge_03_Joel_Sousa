@@ -1,0 +1,19 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: ms-notification
+  data:
+    mongodb:
+      host: mongodb-service
+      port: 27017
+      database: db_notification
+      username: root
+      password: root
+      auto-index-creation: true
+      authentication-database: admin
+  rabbitmq:
+    host: rabbitmq-service
+    port: 5672
+    username: guest
+    password: guest
