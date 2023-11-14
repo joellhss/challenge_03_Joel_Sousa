@@ -19,6 +19,7 @@ The "start_linux.sh" and "start_windows.bat" scripts were added to facilitate th
 ### MS. USER
 
 The ms. user is responsible for storing and managing user data and their addresses.
+
 **Operations**:
 
 | **Methods** | **URL**                | **Description**                                                                                       |
