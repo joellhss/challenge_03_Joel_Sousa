@@ -1,0 +1,62 @@
+# spring-boot-docker/docker-compose.yml
+version: "3.7"
+services:
+  mysql-service:
+    image: mysql:latest
+    networks:
+      - user-network
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db_user
+
+  mongodb-service:
+    image: mongo:latest
+    networks:
+      - user-network
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - "27017:27017"
+
+  rabbitmq-service:
+    image: rabbitmq:3.12.8-management
+    networks:
+      - user-network
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  user-service:
+    restart: always
+    build:
+      context: .
+      dockerfile: ms-user/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - user-network
+    depends_on:
+      - mysql-service
+      - rabbitmq-service
+
+  notification-service:
+    restart: always
+    build:
+      context: .
+      dockerfile: ms-notification/Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - user-network
+    depends_on:
+      - mongodb-service
+      - rabbitmq-service
+      - user-service
+
+networks:
+  user-network:
+    driver: bridge

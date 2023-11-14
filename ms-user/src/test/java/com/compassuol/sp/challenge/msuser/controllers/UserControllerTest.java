@@ -4,6 +4,7 @@ import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestCreate;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestPasswordUpdate;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoRequestUpdate;
 import com.compassuol.sp.challenge.msuser.model.dto.UserDtoResponse;
+import com.compassuol.sp.challenge.msuser.model.entity.User;
 import com.compassuol.sp.challenge.msuser.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.text.SimpleDateFormat;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,17 +31,19 @@ public class UserControllerTest {
     public void createUser_WithValidData_ReturnsCreated() throws Exception {
         UserDtoRequestCreate request = new UserDtoRequestCreate();
         request.setPassword("123456789");
-        request.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse("1990-10-07"));
+        request.setBirthdate("1990-10-07");
         request.setActive(true);
         request.setFirstName("Test");
         request.setLastName("Spring");
         request.setCpf("123.123.123-00");
         request.setEmail("test@email.com");
 
+        User entity = request.toEntity();
+
         UserDtoResponse response = new UserDtoResponse();
         response.setId(1L);
         response.setActive(request.isActive());
-        response.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").format(request.getBirthdate()));
+        response.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").format(entity.getBirthdate()));
         response.setCpf(request.getCpf());
         response.setEmail(request.getEmail());
         response.setFirstName(request.getFirstName());
@@ -59,17 +61,19 @@ public class UserControllerTest {
     public void updateUser_WithValidData_ReturnsCreated() throws Exception {
         UserDtoRequestUpdate request = new UserDtoRequestUpdate();
         request.setId(1L);
-        request.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse("1990-10-07"));
+        request.setBirthdate("1990-10-07");
         request.setActive(true);
         request.setFirstName("Test");
         request.setLastName("Spring");
         request.setCpf("123.123.123-00");
         request.setEmail("test@email.com");
 
+        User entity = request.toEntity();
+
         UserDtoResponse response = new UserDtoResponse();
         response.setId(request.getId());
         response.setActive(request.isActive());
-        response.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").format(request.getBirthdate()));
+        response.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").format(entity.getBirthdate()));
         response.setCpf(request.getCpf());
         response.setEmail(request.getEmail());
         response.setFirstName(request.getFirstName());
@@ -123,3 +127,4 @@ public class UserControllerTest {
         assertThat(sut.getBody()).isEqualTo(response);
     }
 }
+

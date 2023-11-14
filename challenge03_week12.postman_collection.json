@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "044da45e-56d9-4c98-b3e5-40c3e941e1de",
+		"name": "challenge 12",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23582885"
+	},
+	"item": [
+		{
+			"name": "Create user (with valid data)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Joel\",\n    \"lastName\": \"Sousa\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"1997-04-09\",\n    \"email\": \"joel@email.com\",\n    \"password\": \"123456789\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Create user (with invalid name)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Jo\",\n    \"lastName\": \"Sousa\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"1997-04-09\",\n    \"email\": \"joel@email.com\",\n    \"password\": \"123456789\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Create user (with invalid email)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Joel\",\n    \"lastName\": \"Sousa\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"1997-04-09\",\n    \"email\": \"joelemail.com\",\n    \"password\": \"123456789\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Create user (with invalid cpf)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Joel\",\n    \"lastName\": \"Sousa\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"1997-04-09\",\n    \"email\": \"joel@email.com\",\n    \"password\": \"123456789\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Create user (with invalid birthdate)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Joel\",\n    \"lastName\": \"Sousa\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"09.04.1997\",\n    \"email\": \"joel@email.com\",\n    \"password\": \"123456789\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Create user (with invalid password)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Joel\",\n    \"lastName\": \"Sousa\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"1997-04-09\",\n    \"email\": \"joel@email.com\",\n    \"password\": \"12345\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"joel@email.com\",\n    \"password\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/login"
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImpvZWxAZW1haWwuY29tIiwiZXhwIjoxNjk5OTM0Njg2fQ.-QvSfWt4_b5LRxK_CyGSdicET6NY_5FTvo1oYpBZak4"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/v1/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImpvZWxAZW1haWwuY29tIiwiZXhwIjoxNjk5OTM0Njg2fQ.-QvSfWt4_b5LRxK_CyGSdicET6NY_5FTvo1oYpBZak4"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Joel\",\n    \"lastName\": \"Henrique\",\n    \"cpf\": \"123.123.123-00\",\n    \"birthdate\": \"1997-04-09\",\n    \"email\": \"joel@email.com\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Update password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImpvZWxAZW1haWwuY29tIiwiZXhwIjoxNjk5OTM0Njg2fQ.-QvSfWt4_b5LRxK_CyGSdicET6NY_5FTvo1oYpBZak4"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"1234567\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/users/1/password"
+			},
+			"response": []
+		},
+		{
+			"name": "GET notifications for pagination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/v1/notification?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"notification"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

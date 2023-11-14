@@ -43,7 +43,7 @@ public class UserServiceImplTest {
     public void createUser_withValidData_ReturnsOrder() throws ParseException {
         UserDtoRequestCreate request = new UserDtoRequestCreate();
         request.setPassword("123456789");
-        request.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse("1990-10-07"));
+        request.setBirthdate("1990-10-07");
         request.setActive(true);
         request.setFirstName("Test");
         request.setLastName("Spring");
@@ -79,7 +79,7 @@ public class UserServiceImplTest {
     public void updateUser_withValidData() throws ParseException {
         UserDtoRequestUpdate request = new UserDtoRequestUpdate();
         request.setId(1L);
-        request.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse("1990-10-07"));
+        request.setBirthdate("1990-10-07");
         request.setActive(true);
         request.setFirstName("Test");
         request.setLastName("Spring NEW");

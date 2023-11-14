@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
         if(user.getLastName().length() < 3) throw new InvalidDataException("The last name field cannot be less than 3 characters long", "lastName");
         if(!Validations.emailValidator(user.getEmail())) throw new InvalidDataException("Please enter a valid email", "email");
         if(!Validations.cpfValidator(user.getCpf())) throw new InvalidDataException("The CPF required is in the pattern xxx.xxx.xxx-xx", "cpf");
+        if(!Validations.dateValidator(user.getBirthdate())) throw new InvalidDataException("The date must be in the following format: 'yyyy-MM-dd' (year/month/day).", "birthdate");
         if(user.getPassword().length() < 6) throw new InvalidDataException("The password field cannot be less than 6 characters long", "password");
 
         if(repository.findByEmail(user.getEmail()).isPresent()) throw new BusinessException("This email is already registered in the system");
@@ -65,6 +66,7 @@ public class UserServiceImpl implements UserService {
         if(user.getLastName().length() < 3) throw new InvalidDataException("The last name field cannot be less than 3 characters long", "lastName");
         if(!Validations.emailValidator(user.getEmail())) throw new InvalidDataException("Please enter a valid email", "email");
         if(!Validations.cpfValidator(user.getCpf())) throw new InvalidDataException("The CPF required is in the pattern xxx.xxx.xxx-xx", "cpf");
+        if(!Validations.dateValidator(user.getBirthdate())) throw new InvalidDataException("The date must be in the following format: 'yyyy-MM-dd' (year/month/day).", "birthdate");
 
         Optional<User> resultEmail = repository.findByEmail(user.getEmail());
         Optional<User> resultCPF = repository.findByCpf(user.getCpf());
