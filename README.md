@@ -11,7 +11,7 @@ The project consists of a REST API for a user authentication system while mainta
 * **Docker** - To configure and run the entire environment
 * **Docker Compose** - To configure and run the entire environment
 * **Maven** - To build microservices
-* **JDK 17** - To build microservices
+* **JDK 17** - To build microservice
 
 ***Note:** 
 The "start_linux.sh" and "start_windows.bat" scripts were added to facilitate the process of building microservices and running in the dockerized environment. The script has been heavily tested "start_linux.sh" and will work correctly as long as you have all the requirements installed.*
@@ -92,6 +92,8 @@ Password update.
 ### MS. NOTIFICATION
 
 The ms. notification is responsible for receiving and storing user registration notifications, user registration changes, and login through received messages.
+
+**Operations**:
 
 | **Methods** | **URL**           | **Description**                                                          |
 |:------------|:------------------|:-------------------------------------------------------------------------|
