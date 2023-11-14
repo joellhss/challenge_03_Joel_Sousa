@@ -7,6 +7,15 @@ The project consists of a REST API for a user authentication system while mainta
 1. **Ms. User**: The Order feature allows users to place orders for products from a catalog.
 2. **Ms. Notification**: The Product feature allows users to create, read, update, and delete products.
 
+### Execution requirements
+* **Docker** - To configure and run the entire environment
+* **Docker Compose** - To configure and run the entire environment
+* **Maven** - To build microservices
+* **JDK 17** - To build microservices
+
+***Note:** 
+The "start_linux.sh" and "start_windows.bat" scripts were added to facilitate the process of building microservices and running in the dockerized environment. The script has been heavily tested "start_linux.sh" and will work correctly as long as you have all the requirements installed.*
+
 ### MS. USER
 
 The ms. user is responsible for storing and managing user data and their addresses.
